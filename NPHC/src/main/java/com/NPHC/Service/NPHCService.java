@@ -35,6 +35,6 @@ public class NPHCService {
 
 	@Transactional
 	public List<Employee> getFilteredEmployees(Double minSalary, Double maxSalary) {
-		return repo.getFilteredEmployee(minSalary, maxSalary);
+		return repo.getFilteredEmployees(minSalary, maxSalary);
 	}
 }

@@ -68,10 +68,13 @@ public class NPHCController {
 																		) {
 		try {
 			List<Employee> emps = nphcService.getFilteredEmployees (minSalary, maxSalary);
-			
+			if (emps.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			} 
+				return new ResponseEntity<>(emps, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
-		
-		return null;
 	}
 	
 }
