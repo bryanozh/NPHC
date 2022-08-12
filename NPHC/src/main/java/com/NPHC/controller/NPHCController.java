@@ -18,7 +18,7 @@ import com.NPHC.message.ResponseMessage;
 import com.NPHC.helper.CSVHelper;
 import com.NPHC.model.Employee;
 
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/csv")
 public class NPHCController {
@@ -27,7 +27,7 @@ public class NPHCController {
 	NPHCService nphcService;
 	
 	//User Story 1: Upload CSV file to db
-	@PostMapping("/upload")
+	@PostMapping("/users//upload")
 	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {	
 		String message = "";
 		if (CSVHelper.hasCSVFormat(file)) {
@@ -45,7 +45,7 @@ public class NPHCController {
 	}
 	
 	//User story 2: Get all emps for display
-	@GetMapping("EmployeeList")
+	@GetMapping("all")
 	public ResponseEntity<List<Employee>> getAllEmp() {
 		try {
 			List<Employee> empList = nphcService.getAllEmployees();
@@ -54,9 +54,24 @@ public class NPHCController {
 			}
 			return new ResponseEntity<>(empList, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
+	
+	@GetMapping("/users")
+	public ResponseEntity<List<Employee>> getFilteredEmployees(
+																		@RequestParam("minSalary") Double minSalary,
+																		@RequestParam("maxSalary") Double maxSalary,
+																		@RequestParam("offset") Integer offset,
+																		@RequestParam("limit") Integer limit
+																		) {
+		try {
+			List<Employee> emps = nphcService.getFilteredEmployees (minSalary, maxSalary);
+			
+		}
+		
+		return null;
+	}
 	
 }

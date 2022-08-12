@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +36,17 @@ public class CSVHelper {
 			CSVParser CSVParser = new CSVParser(br, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 			List<Employee> empList = new ArrayList<Employee>();
 			Iterable<CSVRecord> csvRecords = CSVParser.getRecords();
+			LocalDate empStartDate;
 			for (CSVRecord csvRecord : csvRecords) {
 				String userId = csvRecord.get("id");
 				Double userSalary = Double.parseDouble(csvRecord.get("salary"));
+				String startDate = csvRecord.get("startDate");
+				
+				if (startDate.length() == "yyyy-mm-dd".length()) {
+					empStartDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				} else {
+					empStartDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd-MMM-yy"));
+				}
 				
 				if (userId.startsWith("#")) {
 					continue;
@@ -50,7 +60,7 @@ public class CSVHelper {
 							csvRecord.get("login"),
 							csvRecord.get("name"),
 							Double.parseDouble(csvRecord.get("salary")),
-							Date.valueOf(csvRecord.get("startDate"))
+							Date.valueOf(empStartDate)
 							);
 							empList.add(emp);
 				}

@@ -32,4 +32,9 @@ public class NPHCService {
 	public List<Employee> getAllEmployees() {
 		return repo.findAll();
 	}
+
+	@Transactional
+	public List<Employee> getFilteredEmployees(Double minSalary, Double maxSalary) {
+		return repo.getFilteredEmployee(minSalary, maxSalary);
+	}
 }

@@ -13,6 +13,8 @@ import com.NPHC.model.Employee;
 public interface NPHCRepo extends JpaRepository<Employee, String> {
 
 	@Query(value = "select e from Employee u where e.salary>=:minSalary and e.salary<=:maxSalary")
-	List<Employee> getFirst30FilteredUsers(@Param("minSalary") double minSalary, @Param("maxSalary") double maxSalary);
+	List<Employee> getFilteredEmployees(@Param("minSalary") double minSalary, @Param("maxSalary") double maxSalary);
+
+	
 	
 }
